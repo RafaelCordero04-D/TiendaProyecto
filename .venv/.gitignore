@@ -1,0 +1,5 @@
+# Archivos y directorios de Python
+__pycache__/
+
+# Ignorar archivos de base de datos
+*.db
