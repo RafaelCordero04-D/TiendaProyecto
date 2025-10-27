@@ -7,3 +7,7 @@ class categoriaBase(BaseModel):
 
 class categoria(categoriaBase, table=True):
     id: int | None = Field(default = None, primary_key = True)
+
+class categoriaCreate(categoriaBase):
+    pass
+
