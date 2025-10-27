@@ -13,3 +13,11 @@ class categoriaCreate(categoriaBase):
 
 class categoriaUpdate(categoriaBase):
     pass
+
+
+class productoBase(BaseModel):
+    name:str | None = Field(description="Nombre del producto")
+    price:float | None = Field(description="Precio del producto")
+    stock:int | None = Field(description="Stock del producto")
+    description: str | None = Fiel(dedscription="Descripcion del produto")
+
