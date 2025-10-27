@@ -11,3 +11,5 @@ class categoria(categoriaBase, table=True):
 class categoriaCreate(categoriaBase):
     pass
 
+class categoriaUpdate(categoriaBase):
+    pass
