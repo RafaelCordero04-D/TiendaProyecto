@@ -7,6 +7,7 @@ class categoriaBase(BaseModel):
 
 class categoria(categoriaBase, table=True):
     id: int | None = Field(default = None, primary_key = True)
+    productos: list["producto"] = Relationship(back_populates="categoria")
 
 class categoriaCreate(categoriaBase):
     pass
@@ -23,9 +24,12 @@ class productoBase(BaseModel):
 
 class producto(productoBase, table=True):
     id: int | None = Field(default= None, primary_key= True)
+    categoria_id: int = Field(foreign_key= "categoria.id")
+    categoria: Categoria = Relationship(back_populates="productos")
 
 class productoCreate(productoBase):
-    pass
+    class spiderManCreate(spiderManBase):
+        universe_id: int = Field(foreign_key="universe.id")
 
 class productoUpdate(productoBase):
     pass
