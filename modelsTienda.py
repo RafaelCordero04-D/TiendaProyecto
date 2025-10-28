@@ -24,4 +24,10 @@ class productoBase(BaseModel):
 class producto(productoBase, table=True):
     id: int | None = Field(default= None, primary_key= True)
 
+class productoCreate(productoBase):
+    pass
+
+class productoUpdate(productoBase):
+    pass
+
 
