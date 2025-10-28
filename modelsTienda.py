@@ -21,3 +21,7 @@ class productoBase(BaseModel):
     stock:int | None = Field(description="Stock del producto")
     description: str | None = Fiel(dedscription="Descripcion del produto")
 
+class producto(productoBase, table=True):
+    id: int | None = Field(default= None, primary_key= True)
+
+
