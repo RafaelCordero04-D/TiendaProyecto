@@ -1,5 +1,5 @@
 from TiendaDb import SessionDep
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query, status
 from modelsTienda import producto, productoCreate, productoUpdate, categoria
 from sqlalchemy.exc import IntegrityError
 from sqlmodel import select
@@ -18,3 +18,26 @@ async def create_producto(new_producto: productoCreate, session: SessionDep):
     session.refresh(Producto)
     return Producto
 
+@router.get("/productos", response_model=list[producto], status_code=200)
+async def get_all_productos(session: SessionDep,
+            stock: int |None = Query(None, description="Filtrar por stock exacto"),
+            precio_min: float |None = Query(None, description="precio minimo"),
+            precio_max: float |None =Query(None, description="precio maximo"),
+            categoria_id: int |None = Query(None, description="Filtrar por ID de la categoria")
+            ):
+    query = session.query(producto)
+
+    if stock is not None:
+        query = query.filter(producto.stock == stock)
+    if precio_min is not None:
+        query = query.filter(producto.price >= precio_min)
+    if precio_max is not None:
+        query = query.filter(producto.price <= precio_max)
+    if categoria_id is not None:
+        query= query.filter(producto.categoria_id == categoria_id)
+
+    productos = query.all()
+
+    if not productos:
+        raise HTTPException(status_code=404, detail="No se encontraron productos con los filtros especificados.")
+    return productos
