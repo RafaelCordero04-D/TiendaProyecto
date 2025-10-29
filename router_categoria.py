@@ -2,6 +2,7 @@ from TiendaDb import SessionDep
 from fastapi import APIRouter, HTTPException
 from modelsTienda import categoria, categoriaCreate, categoriaUpdate
 from sqlalchemy.exc import IntegrityError
+from sqlmodel import select
 router = APIRouter()
 
 @router.post("/", response_model=categoria, status_code = 201)
@@ -20,4 +21,26 @@ async def create_categoria(new_categoria: categoriaCreate, session: SessionDep):
 async def get_all_categorias(session: SessionDep):
     categorias = session.query(categoria).all()
     return categorias
+
+@router.delete("/inactivate/{categoria_id}", response_model=categoria)
+async def kil_one_categoria(categoria_id: int, session: SessionDep):
+    categoria_db = session.get(categoria, categoria_id)
+    if not categoria_db:
+        raise HTTPException(status_code=404, detail="Categoria not found")
+    if not categoria_db.status:
+        raise HTTPException(status_code=404, detail="Categoria already inactive")
+    categoria_db.status = False
+    session.add(categoria_db)
+    session.commit()
+    session.refresh(categoria_db)
+    return{"message": f"Categoria'{categoria_db.name}' has been desactivated"}
+
+@router.get("/activateCategorias/", response_model=list[categoria])
+async def get_categorias_by_status(session: SessionDep):
+    statement = select(categoria).where(categoria.status == True)
+    results = session.exec(statement).all()
+    if not results:
+        raise HTTPException(status_code=404, detail="No categorias found")
+    return results
+
 
