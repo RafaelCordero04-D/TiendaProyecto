@@ -17,12 +17,12 @@ async def create_categoria(new_categoria: categoriaCreate, session: SessionDep):
     session.refresh(Categoria)
     return Categoria
 
-@router.get("/categorias", response_model=list[categoria])
+@router.get("/categorias", response_model=list[categoria], status_code=200)
 async def get_all_categorias(session: SessionDep):
     categorias = session.query(categoria).all()
     return categorias
 
-@router.delete("/inactivate/{categoria_id}", response_model=categoria)
+@router.delete("/inactivate/{categoria_id}", response_model=categoria, status_code=200)
 async def kil_one_categoria(categoria_id: int, session: SessionDep):
     categoria_db = session.get(categoria, categoria_id)
     if not categoria_db:
@@ -35,7 +35,7 @@ async def kil_one_categoria(categoria_id: int, session: SessionDep):
     session.refresh(categoria_db)
     return{"message": f"Categoria'{categoria_db.name}' has been desactivated"}
 
-@router.get("/activateCategorias/", response_model=list[categoria])
+@router.get("/activateCategorias/", response_model=list[categoria], status_code=200)
 async def get_categorias_by_status(session: SessionDep):
     statement = select(categoria).where(categoria.status == True)
     results = session.exec(statement).all()
@@ -43,7 +43,7 @@ async def get_categorias_by_status(session: SessionDep):
         raise HTTPException(status_code=404, detail="No categorias found")
     return results
 
-@router.patch("/categoriaUpdate/{categoria_id}")
+@router.patch("/categoriaUpdate/{categoria_id}", status_code=200)
 async def update_categoria(new_categoria: categoriaUpdate, categoria_id: int, session: SessionDep ):
     categoria_db = session.get(categoria, categoria_id)
     if not categoria_db:
