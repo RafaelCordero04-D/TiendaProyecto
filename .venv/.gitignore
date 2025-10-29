@@ -2,4 +2,4 @@
 __pycache__/
 
 # Ignorar archivos de base de datos
-*.db
+tienda.db
