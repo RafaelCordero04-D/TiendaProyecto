@@ -30,8 +30,7 @@ class producto(productoBase, table=True):
     categoria: Categoria = Relationship(back_populates="productos")
 
 class productoCreate(productoBase):
-    class spiderManCreate(spiderManBase):
-        universe_id: int = Field(foreign_key="universe.id")
+    categoria_id: int = Field(foreign_key="categoria.id")
 
 class productoUpdate(productoBase):
     pass
