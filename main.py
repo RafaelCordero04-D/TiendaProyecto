@@ -1,9 +1,14 @@
 from fastapi import FastAPI
-
-import categoria
+from sqlmodel import SQLModel
+from TiendaDb import engine
+import router_categoria
 from TiendaDb import create_tables
 app = FastAPI(lefespan = create_tables, tittle="Sistema de gestión de Tienda Online")
-app.include_router(categoria.router, tags=["categoria"], prefix="/categoria")
+
+@app.on_event("startup")
+def on_startup():
+    SQLModel.metadata.create_all(engine)
+app.include_router(router_categoria.router, tags=["categoria"], prefix="/categoria")
 
 
 
