@@ -1,8 +1,9 @@
 from pydantic import BaseModel
 from sqlmodel import SQLModel, Field, Relationship
 
+
 class categoriaBase(SQLModel):
-    name: str | None = Field(description="Nombre de la categoria")
+    name: str | None = Field(unique=True, index= True, description="Nombre de la categoria")
     description: str | None = Field(description="Descripción de la categoria")
     status: bool = Field(description="True= activate, False= deactivate", default = True)
 
