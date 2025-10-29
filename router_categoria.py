@@ -43,4 +43,15 @@ async def get_categorias_by_status(session: SessionDep):
         raise HTTPException(status_code=404, detail="No categorias found")
     return results
 
+@router.patch("/categoriaUpdate/{categoria_id}")
+async def update_categoria(new_categoria: categoriaUpdate, categoria_id: int, session: SessionDep ):
+    categoria_db = session.get(categoria, categoria_id)
+    if not categoria_db:
+        raise HTTPException(status_code=404, detail="categoria not found")
+    categoria_update = new_categoria.model_dump(exclude_unset=True)
+    categoria_db.sqlmodel_update(categoria_update)
+    session.add(categoria_db)
+    session.commit()
+    session.refresh(categoria_db)
+    return categoria_db
 
