@@ -144,3 +144,61 @@ Compra o descuenta stock de un producto.
 -La cantidad debe ser mayor que 0.
 
 -El stock no puede quedar negativo.
+
+## 🗂️ Funciones principales - Categorías
+
+### 1️⃣ Crear una nueva categoría
+
+**POST /**  
+
+Crea una nueva categoría.
+
+### 2️⃣ Obtener todas las categorías
+
+**GET /categorias**
+
+Devuelve la lista de todas las categorías registradas (activas e inactivas).
+
+### 3️⃣ Inactivar una categoría y sus productos
+
+**DELETE /inactivate/{categoria_id}**
+
+Desactiva una categoría (status = false) y también todos los productos asociados a ella.
+
+**Errores posibles:**
+
+-404: Categoría no encontrada o ya inactiva.
+
+### 4️⃣ Activar una categoría
+
+**PUT /categoriaActivate/{categoria_id}**
+
+Activa una categoría previamente inactiva.
+
+**Errores posibles:**
+
+-404: Categoría no encontrada o ya activa.
+
+### 5️⃣ Obtener solo las categorías activas
+
+**GET /activateCategorias/**
+
+Devuelve todas las categorías cuyo estado es true.
+
+**Errores posibles:**
+
+-404: No se encontraron categorías activas.
+
+### 6️⃣ Actualizar una categoría
+
+**PATCH /categoriaUpdate/{categoria_id}**
+
+Permite modificar parcialmente una categoría existente.
+
+**Errores posibles:**
+
+-404: Categoría no encontrada.
+
+
+## 📚 Autor
+Desarrollado por [Rafael Cordero ✨](https://github.com/RafaelCordero04-D)
