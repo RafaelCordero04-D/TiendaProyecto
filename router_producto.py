@@ -9,6 +9,8 @@ router = APIRouter()
 @router.post("/", response_model= producto, status_code=201 )
 async def create_producto(new_producto: productoCreate, session: SessionDep):
     producto_data = new_producto.model_dump()
+    if producto_data.get("stock", 0) < 0:
+        raise HTTPException(status_code=400, detail="El stock no puede ser negativo.")
     categoria_db = session.get_one(categoria, producto_data.get("categoria_id"))
     if not categoria_db:
         raise HTTPException(status_code=400, detail="Categoria not found.")

@@ -13,7 +13,7 @@ async def create_categoria(new_categoria: categoriaCreate, session: SessionDep):
         session.commit()
     except IntegrityError:
         session.rollback()
-        raise HTTPException(status_code=400, detail="El nombre de la categoria ya existe.")
+        raise HTTPException(status_code=409, detail="El nombre de la categoria ya existe.")
     session.refresh(Categoria)
     return Categoria
 
