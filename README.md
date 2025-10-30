@@ -17,15 +17,17 @@ Incluye operaciones CRUD y una base de datos SQLite para almacenar la informaciÃ
 
 1. **Clona el repositorio**
 
+   #bash
    ```bash
    git clone https://github.com/RafaelCordero04-D/TiendaProyecto.git
    cd TiendaProyecto
 
-2. **Crea un entorno virtual
+3. **Crea un entorno virtual
+   #bash
    ```bash 
    python -m venv venv
 
-3. Activalo
+5. Activalo
    
    #En windows:
    ```bash
@@ -35,15 +37,17 @@ Incluye operaciones CRUD y una base de datos SQLite para almacenar la informaciÃ
    ```bash
    source venv/bin/activate
    ```
-5. Insala las dependencias
+6. Insala las dependencias
+   #bash
    ```bash
    pip install -r requirements.txt
    ```
-6. Ejecutar el servidor
+8. Ejecutar el servidor
+   #bash
     ```bash
     uvicorn main:app --reload
     ```
-7. Abre tu navegador
+10. Abre tu navegador
   -DocumentaciÃ³n interactiva (Swagger UI):
     ðŸ‘‰ http://127.0.0.1:8000/docs
    
