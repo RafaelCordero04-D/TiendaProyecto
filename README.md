@@ -18,7 +18,7 @@ Incluye operaciones CRUD y una base de datos SQLite para almacenar la informaci√
 1. **Clona el repositorio**
 
    ```bash
-   git clone https://github.com/tu_usuario/TiendaProyecto.git
+   git clone https://github.com/RafaelCordero04-D/TiendaProyecto.git
    cd TiendaProyecto
 
 2. **Crea un entorno virtual
