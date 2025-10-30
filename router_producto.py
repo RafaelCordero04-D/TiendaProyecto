@@ -102,3 +102,21 @@ async def activate_producto(producto_id: int, session: SessionDep):
     session.commit()
     session.refresh(producto_db)
     return {"message": f"Producto'{producto_db.name}' has been activated"}
+
+@router.put("/producto/comprar/{producto_id}", response_model= producto, status_code = 200)
+async def comprar_producto(producto_id: int, cantidad:int, session: SessionDep):
+    producto_db = session.get(producto,producto_id)
+    if not producto_db:
+        raise HTTPException(status_code=404, detail="Producto not found.")
+    if not producto_db.status:
+        raise HTTPException(status_code=404, detail="El producto no esta activo y no se puede comprar.")
+    if cantidad <= 0:
+        raise HTTPException(status_code=404, detail="La cantidad debe ser mayor que cero.")
+    if producto_db.stock < cantidad:
+        raise HTTPException(status_code=404, detail=f"Stock insuficiente. Disponible: '{producto_db.stock}, solicitando: '{cantidad}'.'")
+
+    producto_db.stock -= cantidad
+    session.add(producto_db)
+    session.commit()
+    session.refresh(producto_db)
+    return producto_db
