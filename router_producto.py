@@ -25,7 +25,7 @@ async def get_productos(session: SessionDep,
             precio_max: float |None =Query(None, description="precio maximo"),
             categoria_id: int |None = Query(None, description="Filtrar por ID de la categoria")
             ):
-    query = session.query(producto)
+    query = session.query(producto).filter(producto.status == True)
 
     if stock is not None:
         query = query.filter(producto.stock == stock)
@@ -56,6 +56,14 @@ async def get_producto_by_categoria(nombre_categoria: str, session: SessionDep):
     if not productos:
         raise HTTPException(status_code= 404, detail=f"No hay productos registrados en la categoría '{categoria_result.nombre}'.")
     return productos
+
+@router.get("/producto/ActiveOrInactive/", response_model=list[producto], status_code=200)
+async def get_productos_by_status(its_active: bool, session: SessionDep):
+    statement = select(producto).where(producto.status == its_active)
+    results = session.exec(statement).all()
+    if not results:
+        raise HTTPException(status_code=404, detail="No Productos found with that status.")
+    return results
 
 @router.patch("/productoUpdate/{producto_id}", status_code=200)
 async def update_producto(new_producto: productoUpdate, producto_id:int , session: SessionDep):
