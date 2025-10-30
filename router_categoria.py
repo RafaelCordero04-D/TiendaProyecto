@@ -30,10 +30,16 @@ async def kill_one_categoria(categoria_id: int, session: SessionDep):
     if not categoria_db.status:
         raise HTTPException(status_code=404, detail="Categoria already inactive")
     categoria_db.status = False
+
+    for p in categoria_db.productos:
+        if p.status:
+            p.status = False
+            session.add(p)
+
     session.add(categoria_db)
     session.commit()
     session.refresh(categoria_db)
-    return{"message": f"Categoria'{categoria_db.name}' has been desactivated"}
+    return{"message": f"Categoria'{categoria_db.name}' y sus producto asociados fueron eliminados."}
 
 @router.get("/activateCategorias/", response_model=list[categoria], status_code=200)
 async def get_categorias_by_status(session: SessionDep):
