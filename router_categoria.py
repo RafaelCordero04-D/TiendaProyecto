@@ -41,6 +41,19 @@ async def kill_one_categoria(categoria_id: int, session: SessionDep):
     session.refresh(categoria_db)
     return{"message": f"Categoria'{categoria_db.name}' y sus producto asociados fueron eliminados."}
 
+@router.put("/categoriaActivate/{categoria_id}", response_model=categoria, status_code=200)
+async def activate_categoria(categoria_id: int, session: SessionDep):
+    categoria_db = session.get(categoria, categoria_id)
+    if not categoria_db:
+        raise HTTPException(status_code=404, detail="categoria not found.")
+    if categoria_db.status:
+        raise HTTPException(status_code=404, detail="categoria already activate.")
+    categoria_db.status = True
+    session.add(categoria_db)
+    session.commit()
+    session.refresh(categoria_db)
+    return {"message": f"Producto'{categoria_db.name}' has been activated"}
+
 @router.get("/activateCategorias/", response_model=list[categoria], status_code=200)
 async def get_categorias_by_status(session: SessionDep):
     statement = select(categoria).where(categoria.status == True)

@@ -1,5 +1,6 @@
 from TiendaDb import SessionDep
 from fastapi import APIRouter, HTTPException, Query, status
+from sqlalchemy.orm import selectinload
 from modelsTienda import producto, productoCreate, productoUpdate, categoria
 from sqlalchemy.exc import IntegrityError
 from sqlmodel import select
@@ -50,13 +51,13 @@ async def get_producto_by_categoria(nombre_categoria: str, session: SessionDep):
     categoria_result = session.exec(categoria_stmt).first()
 
     if not categoria_result:
-        raise HTTTPExeption(status_code=404, detail=f"No se encontro ninguna categoria con el nombre '{nombre_categoria}'.")
+        raise HTTPException(status_code=404, detail=f"No se encontro ninguna categoria con el nombre '{nombre_categoria}'.")
 
-    productos_stmt = select(producto).where(producto.categoria_id == categoria_result.id)
+    productos_stmt = select(producto).options(selectinload(producto.categoria)).where(producto.categoria_id == categoria_result.id)
     productos = session.exec(productos_stmt).all()
 
     if not productos:
-        raise HTTPException(status_code= 404, detail=f"No hay productos registrados en la categoría '{categoria_result.nombre}'.")
+        raise HTTPException(status_code= 404, detail=f"No hay productos registrados en la categoría '{categoria_result.name}'.")
     return productos
 
 @router.get("/producto/ActiveOrInactive/", response_model=list[producto], status_code=200)
