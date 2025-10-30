@@ -23,6 +23,7 @@ Incluye operaciones CRUD y una base de datos SQLite para almacenar la informaci√
    cd TiendaProyecto
 
 3. **Crea un entorno virtual
+   
    #bash
    ```bash 
    python -m venv venv
@@ -38,11 +39,13 @@ Incluye operaciones CRUD y una base de datos SQLite para almacenar la informaci√
    source venv/bin/activate
    ```
 6. Insala las dependencias
+   
    #bash
    ```bash
    pip install -r requirements.txt
    ```
 8. Ejecutar el servidor
+   
    #bash
     ```bash
     uvicorn main:app --reload
