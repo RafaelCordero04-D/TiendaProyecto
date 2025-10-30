@@ -65,28 +65,53 @@ Crea un nuevo producto.
 
 **Validaciones:**
 - No se permite un `stock` negativo.
+- 
 - La categoría debe existir.
 
 **Respuestas**
 -✅ 201 Created: Producto creado correctamente.
+
 -❌ 400 Bad Request: Stock negativo o categoría no encontrada.
 
-### 🔍 **GET /productos/
+### 🔍 **GET /productos/**
 
 Obtiene todos los productos activos (status = True).
 
 **Filtros opcionales:**
 
 -stock: Filtrar por cantidad exacta.
+
 -precio_min: Precio mínimo.
+
 -precio_max: Precio máximo.
+
 -categoria_id: ID de categoría.
 
-### 🔎 **GET /productos/search
+### 🔎 **GET /productos/search**
 
 Busca productos por nombre de categoría (coincidencia parcial, sin distinguir mayúsculas/minúsculas).
 
 **Respuestas:**
 
 -✅ 200 OK: Lista de productos encontrados.
+
 -❌ 404 Not Found: Categoría o productos no encontrados.
+
+
+### ⚖️ **GET /producto/ActiveOrInactive/**
+
+Lista los productos filtrando por su estado (its_active).
+
+### 🛠️ **PATCH /productoUpdate/{producto_id}**
+
+Actualiza los datos de un producto específico.
+
+### ❌ **DELETE /productoDelete/{producto_id}**
+
+Desactiva un producto (no lo elimina físicamente).
+
+Respuestas:
+
+-✅ 200 OK: Producto desactivado.
+
+-❌ 404 Not Found: Producto no existe o ya está inactivo.
