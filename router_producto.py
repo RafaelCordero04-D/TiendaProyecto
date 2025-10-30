@@ -41,3 +41,18 @@ async def get_all_productos(session: SessionDep,
     if not productos:
         raise HTTPException(status_code=404, detail="No se encontraron productos con los filtros especificados.")
     return productos
+
+@router.get("/productos/search", response_model=list[producto], status_code=200)
+async def get_producto_by_categoria(nombre_categoria: str, session: SessionDep):
+    categoria_stmt =select(categoria).where(categoria.name.ilike(f"%{nombre_categoria}%"))
+    categoria_result = session.exec(categoria_stmt).first()
+
+    if not categoria_result:
+        raise HTTTPExeption(status_code=404, detail=f"No se encontro ninguna categoria con el nombre '{nombre_categoria}'.")
+
+    productos_stmt = select(producto).where(producto.categoria_id == categoria_result.id)
+    productos = session.exec(productos_stmt).all()
+
+    if not productos:
+        raise HTTPException(status_code= 404, detail=f"No hay productos registrados en la categoría '{categoria_result.nombre}'.")
+    return productos
