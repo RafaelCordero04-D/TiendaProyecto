@@ -60,18 +60,20 @@ Incluye operaciones CRUD y una base de datos SQLite para almacenar la informaci�
 Estos endpoints permiten gestionar los productos de la tienda.  
 Incluyen operaciones de creación, consulta, actualización, activación, compra y eliminación lógica.}
 
+
 ### 🟢 **POST /productos/**
 Crea un nuevo producto.
 
 **Validaciones:**
 - No se permite un `stock` negativo.
-- 
+  
 - La categoría debe existir.
 
 **Respuestas**
 -✅ 201 Created: Producto creado correctamente.
 
 -❌ 400 Bad Request: Stock negativo o categoría no encontrada.
+
 
 ### 🔍 **GET /productos/**
 
@@ -86,6 +88,7 @@ Obtiene todos los productos activos (status = True).
 -precio_max: Precio máximo.
 
 -categoria_id: ID de categoría.
+
 
 ### 🔎 **GET /productos/search**
 
@@ -102,16 +105,42 @@ Busca productos por nombre de categoría (coincidencia parcial, sin distinguir m
 
 Lista los productos filtrando por su estado (its_active).
 
+
 ### 🛠️ **PATCH /productoUpdate/{producto_id}**
 
 Actualiza los datos de un producto específico.
+
 
 ### ❌ **DELETE /productoDelete/{producto_id}**
 
 Desactiva un producto (no lo elimina físicamente).
 
-Respuestas:
+**Respuestas:**
 
 -✅ 200 OK: Producto desactivado.
 
 -❌ 404 Not Found: Producto no existe o ya está inactivo.
+
+
+### 🔄 **PUT /productoActivate/{producto_id}**
+
+Activa nuevamente un producto previamente desactivado.
+
+**Respuestas:**
+
+-✅ 200 OK: Producto activado.
+
+-❌ 404 Not Found: Producto no existe o ya está activo.
+
+
+### 🛒 **PUT /producto/comprar/{producto_id}**
+
+Compra o descuenta stock de un producto.
+
+**Validaciones:**
+
+-El producto debe estar activo.
+
+-La cantidad debe ser mayor que 0.
+
+-El stock no puede quedar negativo.
