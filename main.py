@@ -4,7 +4,7 @@ from TiendaDb import engine
 import router_categoria
 import router_producto
 from TiendaDb import create_tables
-app = FastAPI(lefespan = create_tables, tittle="Sistema de gestión de Tienda Online")
+app = FastAPI(lefespan = create_tables, tittle="Sistema de Gestión de Tienda Online")
 
 @app.on_event("startup")
 def on_startup():
