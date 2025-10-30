@@ -19,7 +19,7 @@ async def create_producto(new_producto: productoCreate, session: SessionDep):
     return Producto
 
 @router.get("/productos", response_model=list[producto], status_code=200)
-async def get_all_productos(session: SessionDep,
+async def get_productos(session: SessionDep,
             stock: int |None = Query(None, description="Filtrar por stock exacto"),
             precio_min: float |None = Query(None, description="precio minimo"),
             precio_max: float |None =Query(None, description="precio maximo"),
@@ -56,3 +56,15 @@ async def get_producto_by_categoria(nombre_categoria: str, session: SessionDep):
     if not productos:
         raise HTTPException(status_code= 404, detail=f"No hay productos registrados en la categoría '{categoria_result.nombre}'.")
     return productos
+
+@router.patch("/productoUpdate/{producto_id}", status_code=200)
+async def update_producto(new_producto: productoUpdate, producto_id:int , session: SessionDep):
+    producto_db = session.get(producto, producto_id)
+    if not producto_db:
+        raise HTTPException(status_code= 404, detail="Producto not found.")
+    producto_update = new_producto.model_dump(exclude_unset=True)
+    producto_db.sqlmodel_update(producto_update)
+    session.add(producto_db)
+    session.commit()
+    session.refresh(producto_db)
+    return producto_db

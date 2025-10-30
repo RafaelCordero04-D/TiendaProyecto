@@ -23,7 +23,7 @@ async def get_all_categorias(session: SessionDep):
     return categorias
 
 @router.delete("/inactivate/{categoria_id}", response_model=categoria, status_code=200)
-async def kil_one_categoria(categoria_id: int, session: SessionDep):
+async def kill_one_categoria(categoria_id: int, session: SessionDep):
     categoria_db = session.get(categoria, categoria_id)
     if not categoria_db:
         raise HTTPException(status_code=404, detail="Categoria not found")
