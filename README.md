@@ -26,23 +26,24 @@ Incluye operaciones CRUD y una base de datos SQLite para almacenar la informaci�
    python -m venv venv
 
 3. Activalo
-   -En windows:
+   
+   #En windows:
    ```bash
-   venv\Scripts\activate
+   source .venv/Scripts/activate
    ```
-   -En Linux\Mac:
+   #En Linux\Mac:
    ```bash
    source venv/bin/activate
    ```
-4. Insala las dependencias
+5. Insala las dependencias
    ```bash
    pip install -r requirements.txt
    ```
-5. Ejecutar el servidor
+6. Ejecutar el servidor
     ```bash
     uvicorn main:app --reload
     ```
-6. Abre tu navegador
+7. Abre tu navegador
   -Documentación interactiva (Swagger UI):
     👉 http://127.0.0.1:8000/docs
    
