@@ -30,15 +30,15 @@ Incluye operaciones CRUD y una base de datos SQLite para almacenar la informaci√
 
 5. Activalo
    
-   #En windows:
+   -En windows:
    ```bash
    source .venv/Scripts/activate
    ```
-   #En Linux\Mac:
+   -En Linux\Mac:
    ```bash
    source venv/bin/activate
    ```
-6. Insala las dependencias
+6. Instala las dependencias
    
    #bash
    ```bash
